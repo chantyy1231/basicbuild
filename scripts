@@ -1,0 +1,83 @@
+--local script:
+local click = workspace.Door:WaitForChild("ClickDetector")
+local UI = script.Parent
+local textbox = UI:WaitForChild("Frame"):WaitForChild("TextBox")
+local replicatedStorage = game:GetService("ReplicatedStorage")
+local openEvent = replicatedStorage:WaitForChild("Open")
+local password = "4321"
+
+
+
+UI.Enabled = false
+
+click.MouseClick:Connect(function()
+	task.wait(0.01)
+	
+	UI.Enabled = true
+	
+	
+	
+end)
+
+textbox.FocusLost:Connect(function(enterPressed)
+	if enterPressed then
+		local writtenPassword = textbox.Text
+		if writtenPassword == password then
+			task.wait(0.01)
+			
+			openEvent:FireServer(writtenPassword)
+			
+			textbox.Text = "Contraseña correcta!"
+			
+			task.wait(0.25)
+			
+			textbox.Text = ""
+			UI.Enabled = false
+			
+			
+		else
+			
+			textbox.Text = "Contraseña incorrecta"
+			
+			task.wait(0.25)
+			
+			textbox.Text = ""
+			
+			return
+			
+		
+			
+		
+		end
+		
+		
+	end
+	
+end)
+
+
+
+--script(serverscriptservice):
+
+local door = workspace:WaitForChild("Door")
+local replicatedStorage = game:GetService("ReplicatedStorage")
+local openEvent = replicatedStorage:WaitForChild("Open")
+
+door.Transparency = 0
+door.CanCollide = true
+
+openEvent.OnServerEvent:Connect(function(player, writtenPassword)
+	
+	door.Transparency = 1
+	door.CanCollide = false	
+	
+	task.wait(5)
+	
+	door.Transparency = 0
+	door.CanCollide = true
+	
+end)
+
+-- made by me 
+very simple
+
